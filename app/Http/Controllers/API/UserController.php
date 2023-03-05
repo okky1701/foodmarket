@@ -28,6 +28,7 @@ class UserController extends Controller
             // Mengecek credentials (login)
             $credentials = request(['email', 'password']);
             if (!Auth::attempt($credentials)) {
+                // dd("Ada Disini");
                 return ResponseFormatter::error([
                     'message' => 'Unauthorized'
                 ],'Authentication Failed', 500);
@@ -36,7 +37,7 @@ class UserController extends Controller
             // Jika hash tidak sesuai maka beri error
             $user = User::where('email', $request->email)->first();
             if (!Hash::check($request->password, $user->password, [])) {
-                throw new \Exception('Invalid Credentials');
+                throw new Exception('Invalid Credentials');
             }
 
             // Jika berhasil maka loginkan
